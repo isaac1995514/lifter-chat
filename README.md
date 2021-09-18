@@ -1,2 +1,2 @@
-# Lifter-Chat
+# Lifter
 Chat App for Lifter
