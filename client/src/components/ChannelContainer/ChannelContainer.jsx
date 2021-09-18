@@ -1,7 +1,7 @@
 import React from "react";
 
-const ChannelList = () => {
+const ChannelContainer = () => {
   return <div>ChannelContainer</div>;
 };
 
-export default ChannelList;
+export default ChannelContainer;

@@ -1,2 +1,2 @@
-export * from "./ChannelList";
-export * from "./ChannelRoom";
+export * from "./ChannelListContainer";
+export * from "./ChannelContainer";
