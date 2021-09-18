@@ -16,9 +16,8 @@ function App() {
   return (
     <div className="app__wrapper">
       <Chat client={client} theme="team dark">
-        <ChannelListContainer></ChannelListContainer>
-
-        <ChannelContainer></ChannelContainer>
+        <ChannelListContainer />/
+        <ChannelContainer />
       </Chat>
     </div>
   );
