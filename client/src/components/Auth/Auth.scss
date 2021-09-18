@@ -1,0 +1,55 @@
+@import "../../assets/scss/color-palette.scss";
+
+.auth__page-container {
+  height: 100%;
+  width: 100%;
+  display: grid;
+  place-items: center;
+  background-color: $auth-background-color;
+
+  .auth__form-container {
+    display: flex;
+    flex-direction: column;
+    height: 400px;
+    width: clamp(20%, 400px, 80%);
+
+    // Email Login
+    .auth__form-container_email-login form {
+      display: flex;
+      flex-direction: column;
+
+      margin-bottom: 10px;
+
+      .input {
+        margin-bottom: 10px;
+      }
+    }
+
+    // 3rd Party Login
+    .auth__form-container_3rd-party-login {
+      display: flex;
+
+      .button-wrapper {
+        border: none;
+        background: none;
+        cursor: pointer;
+        transition-duration: 0.5s;
+
+        &:hover {
+          transform: scale(1.2);
+        }
+      }
+    }
+
+    // Signup Link
+    .signup__text {
+      display: grid;
+      place-items: center;
+      color: white;
+      a {
+        margin-left: 5px;
+        cursor: pointer;
+      }
+    }
+  }
+}
