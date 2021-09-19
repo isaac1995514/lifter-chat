@@ -1,5 +1,9 @@
 import React, { useState } from "react";
 
+import Cookies from "universal-cookie";
+import axios from "axios";
+import { postUserLogin } from "../../services/apis";
+
 /* Components */
 import { Input, Button } from "semantic-ui-react";
 
@@ -7,12 +11,7 @@ import { Input, Button } from "semantic-ui-react";
 import GoogleIcon from "../../assets/google-symbol.png";
 
 /* Firebase */
-import {
-  getAuth,
-  signInWithPopup,
-  signInWithEmailAndPassword,
-  GoogleAuthProvider,
-} from "firebase/auth";
+import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 
 /* Components */
 import { Signup } from "../";
@@ -28,14 +27,15 @@ const Auth = (props) => {
 
   const [createAccount, setCreateAccount] = useState(false);
 
-  const onEmailLogin = (e) => {
+  const onEmailLogin = async (e) => {
     e.preventDefault();
-    const auth = getAuth();
-    signInWithEmailAndPassword(auth, login.email, login.password)
-      .then((userCredential) => {})
-      .catch((error) => {
-        console.log(error);
-      });
+
+    try {
+      postUserLogin(login);
+      window.location.reload();
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   const onGoogleSignin = () => {

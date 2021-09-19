@@ -2,6 +2,8 @@ import React, { useState } from "react";
 
 import { Modal, Button, Form } from "semantic-ui-react";
 
+import { postUserSignup } from "../../services/apis";
+
 const initialFormState = {
   firstName: "",
   lastName: "",
@@ -16,10 +18,16 @@ const SignUp = ({ open, setOpen }) => {
 
   const setForm = (key, value) => {
     setFormInfo((prev) => ({ ...prev, [key]: value }));
-    console.log(form);
   };
 
-  const onSumbit = () => {};
+  const onSumbit = async (e) => {
+    try {
+      postUserSignup(form);
+      window.location.reload();
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
   const onClose = () => {
     setOpen(false);
@@ -96,6 +104,11 @@ const SignUp = ({ open, setOpen }) => {
               type="password"
               value={form.confirmPassword}
               onChange={(e) => setForm("confirmPassword", e.target.value)}
+              error={
+                form.password !== "" &&
+                form.confirmPassword !== "" &&
+                form.password !== form.confirmPassword
+              }
             />
           </Form.Field>
         </Form>
