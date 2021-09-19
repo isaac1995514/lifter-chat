@@ -22,7 +22,7 @@ const SignUp = ({ open, setOpen }) => {
 
   const onSumbit = async (e) => {
     try {
-      postUserSignup(form);
+      await postUserSignup(form);
       window.location.reload();
     } catch (e) {
       console.error(e);

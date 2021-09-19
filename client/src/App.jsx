@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import { useAuthState } from "react-firebase-hooks/auth";
 
@@ -17,10 +17,25 @@ import "./App.scss";
 
 const client = StreamChat.getInstance(STREAM_API_KEY);
 
-const authToken = null;
+const cookies = new Cookies();
 
 function App() {
-  const [user, loading, error] = useAuthState(auth);
+  const authToken = cookies.get("token");
+
+  useEffect(() => {
+    if (authToken) {
+      client.connectUser(
+        {
+          id: cookies.get("userId"),
+          name: cookies.get("fullName"),
+          username: cookies.get("username"),
+          hashedPassword: cookies.get("hashedPassword"),
+          image: "https://getstream.io/random_svg/?name=John",
+        },
+        authToken
+      );
+    }
+  }, [authToken]);
 
   if (!authToken) return <Auth />;
 

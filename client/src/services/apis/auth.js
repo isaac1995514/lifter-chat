@@ -1,40 +1,43 @@
 import axios from "axios";
-import Cookies from "universal-cookie";
 
 import { baseUrl } from "../../config/baseUrl";
 
-const cookies = new Cookies();
+import { setCookies } from "../../services/cookies";
 
 export const postUserLogin = async (form) => {
   const api = `${baseUrl}/auth/login`;
 
   const {
-    data: { token, fullName, userName, userId },
+    data: { token, fullName, username, userId },
   } = await axios.post(api, {
     username: form.email,
     password: form.password,
   });
 
-  cookies.set("token", token);
-  cookies.set("userId", userId);
-  cookies.set("username", userName);
-  cookies.set("fullName", fullName);
+  setCookies({
+    token,
+    userId,
+    username,
+    fullName,
+  });
 };
 
 export const postUserSignup = async (form) => {
   const api = `${baseUrl}/auth/signup`;
 
   const {
-    data: { token, userId, hashedPassword },
+    data: { token, fullName, username, userId, hashedPassword },
   } = await axios.post(`${api}`, {
     username: form.email,
     password: form.password,
     fullName: `${form.firstName} ${form.lastName}`,
   });
 
-  cookies.set("token", token);
-  cookies.set("userId", userId);
-  cookies.set("username", form.email);
-  cookies.set("fullName", `${form.firstName} ${form.lastName}`);
-  cookies.set("hashedPassword", hashedPassword);
+  setCookies({
+    token,
+    fullName,
+    username,
+    userId,
+    hashedPassword: hashedPassword,
+  });
 };

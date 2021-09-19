@@ -31,7 +31,7 @@ const Auth = (props) => {
     e.preventDefault();
 
     try {
-      postUserLogin(login);
+      await postUserLogin(login);
       window.location.reload();
     } catch (e) {
       console.error(e);
