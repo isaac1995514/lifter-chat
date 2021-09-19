@@ -4,3 +4,4 @@ export * from "./ChannelContainer";
 export * from "./ChannelSearch";
 export * from "./TeamChannelList";
 export * from "./TeamChannelPreview";
+export * from "./Signup";

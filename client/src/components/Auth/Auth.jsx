@@ -15,27 +15,24 @@ import {
 } from "firebase/auth";
 
 /* Components */
-// import { SignUpDialog } from "./sub-components/sign-up-dialog";
-// import { EmailLoginPanel } from "./sub-components/email-login-panel";
-// import { LoginIconPanel } from "./sub-components/login-icon-panel";
+import { Signup } from "../";
 
 /* Style */
 import "./Auth.scss";
 
 const Auth = (props) => {
-  const [email, setEmail] = useState("");
+  const [login, setLogin] = useState({
+    email: "",
+    password: "",
+  });
 
-  const [password, setPassword] = useState("");
+  const [createAccount, setCreateAccount] = useState(false);
 
   const onEmailLogin = (e) => {
     e.preventDefault();
     const auth = getAuth();
-    signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        // Signed in
-        const user = userCredential.user;
-        // ...
-      })
+    signInWithEmailAndPassword(auth, login.email, login.password)
+      .then((userCredential) => {})
       .catch((error) => {
         console.log(error);
       });
@@ -68,18 +65,25 @@ const Auth = (props) => {
         <div className="auth__form-container_email-login">
           <form className="auth__email-login__form" onSubmit={onEmailLogin}>
             <Input
-              value={email}
+              value={login.email}
               placeholder="Email"
               type="email"
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) =>
+                setLogin((prev) => ({ ...prev, email: e.target.value }))
+              }
             />
             <Input
-              value={password}
+              value={login.password}
               placeholder="Password"
               type="password"
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e) =>
+                setLogin((prev) => ({ ...prev, password: e.target.value }))
+              }
             />
-            <Button onClick={onEmailLogin} disabled={!email || !password}>
+            <Button
+              onClick={onEmailLogin}
+              disabled={!login.email || !login.password}
+            >
               Sign in
             </Button>
           </form>
@@ -97,10 +101,16 @@ const Auth = (props) => {
         <div className="signup__text">
           <span>
             Don't have an account?{" "}
-            <a className="signup-link">Create an account</a>{" "}
+            <button
+              className="signup__text_link"
+              onClick={() => setCreateAccount(true)}
+            >
+              Create an account
+            </button>{" "}
           </span>
         </div>
       </div>
+      <Signup open={createAccount} setOpen={setCreateAccount} />
     </div>
   );
 };

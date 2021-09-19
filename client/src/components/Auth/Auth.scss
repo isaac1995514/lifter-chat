@@ -46,8 +46,10 @@
       display: grid;
       place-items: center;
       color: white;
-      a {
-        margin-left: 5px;
+      button.signup__text_link {
+        border: none;
+        background: none;
+        color: $auth-button-primary;
         cursor: pointer;
       }
     }
