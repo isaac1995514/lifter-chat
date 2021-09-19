@@ -2,25 +2,33 @@ import React, { useState } from "react";
 
 import { Modal, Button, Form } from "semantic-ui-react";
 
-const SignUp = ({ open, setOpen }) => {
-  const [signUpInfo, setSignUpInfo] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    gender: "M",
-    password: "",
-    confirmPassword: "",
-  });
+const initialFormState = {
+  firstName: "",
+  lastName: "",
+  email: "",
+  gender: "M",
+  password: "",
+  confirmPassword: "",
+};
 
-  const setInfo = (key, value) => {
-    setSignUpInfo((prev) => ({ ...prev, [key]: value }));
+const SignUp = ({ open, setOpen }) => {
+  const [form, setFormInfo] = useState(initialFormState);
+
+  const setForm = (key, value) => {
+    setFormInfo((prev) => ({ ...prev, [key]: value }));
+    console.log(form);
   };
 
   const onSumbit = () => {};
 
+  const onClose = () => {
+    setOpen(false);
+    setFormInfo(initialFormState);
+  };
+
   return (
     <Modal
-      onClose={() => setOpen(false)}
+      onClose={onClose}
       onOpen={() => setOpen(true)}
       open={open}
       dimmer="blurring"
@@ -33,29 +41,31 @@ const SignUp = ({ open, setOpen }) => {
           <Form.Group widths="equal">
             <Form.Input
               fluid
+              value={form.firstName}
               label="First Name"
               placeholder="First Name"
-              onChange={(e) => setInfo("firstName", e.target.value)}
+              onChange={(e) => setForm("firstName", e.target.value)}
             />
             <Form.Input
+              value={form.lastName}
               fluid
               label="Last Name"
               placeholder="Last Name"
-              onChange={(e) => setInfo("lastName", e.target.value)}
+              onChange={(e) => setForm("lastName", e.target.value)}
             />
           </Form.Group>
           <Form.Group label="gender">
             <Form.Button
               label="Male"
               icon="male"
-              color={signUpInfo.gender === "M" ? "blue" : "grey"}
-              onClick={() => setInfo("gender", "M")}
+              color={form.gender === "M" ? "blue" : "grey"}
+              onClick={() => setForm("gender", "M")}
             />
             <Form.Button
               label="Female"
               icon="female"
-              color={signUpInfo.gender === "F" ? "pink" : "grey"}
-              onClick={() => setInfo("gender", "F")}
+              color={form.gender === "F" ? "pink" : "grey"}
+              onClick={() => setForm("gender", "F")}
             />
           </Form.Group>
           <Form.Field>
@@ -64,7 +74,8 @@ const SignUp = ({ open, setOpen }) => {
               label="Email"
               placeholder="Email"
               type="email"
-              onChange={(e) => setInfo("email", e.target.value)}
+              value={form.email}
+              onChange={(e) => setForm("email", e.target.value)}
             />
           </Form.Field>
           <Form.Field>
@@ -73,7 +84,8 @@ const SignUp = ({ open, setOpen }) => {
               label="Password"
               placeholder="Password"
               type="password"
-              onChange={(e) => setInfo("password", e.target.value)}
+              value={form.password}
+              onChange={(e) => setForm("password", e.target.value)}
             />
           </Form.Field>
           <Form.Field>
@@ -82,7 +94,8 @@ const SignUp = ({ open, setOpen }) => {
               label="Confirm Password"
               placeholder="Confirm Password"
               type="password"
-              onChange={(e) => setInfo("confirmPassword", e.target.value)}
+              value={form.confirmPassword}
+              onChange={(e) => setForm("confirmPassword", e.target.value)}
             />
           </Form.Field>
         </Form>
