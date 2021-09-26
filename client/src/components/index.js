@@ -10,3 +10,4 @@ export * from "./CreateChannel";
 export * from "./EditChannel";
 export * from "./TeamMessage";
 export * from "./UserList";
+export * from "./ResultsDropdown";
