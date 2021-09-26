@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 import { useAuthState } from "react-firebase-hooks/auth";
 
@@ -13,6 +13,7 @@ import { STREAM_API_KEY } from "./.secret/api-key";
 /* Firebase */
 import { auth } from "./config/firebase";
 
+import "stream-chat-react/dist/css/index.css";
 import "./App.scss";
 
 const client = StreamChat.getInstance(STREAM_API_KEY);
@@ -21,6 +22,10 @@ const cookies = new Cookies();
 
 function App() {
   const authToken = cookies.get("token");
+
+  const [createType, setCreateType] = useState("");
+  const [isCreating, setIsCreating] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
     if (authToken) {
@@ -41,9 +46,20 @@ function App() {
 
   return (
     <div className="app__wrapper">
-      <Chat client={client} theme="team dark">
-        <ChannelListContainer />/
-        <ChannelContainer />
+      <Chat client={client} theme="team light">
+        <ChannelListContainer
+          isCreating={isCreating}
+          setIsCreating={setIsCreating}
+          setCreateType={setCreateType}
+          setIsEditing={setIsEditing}
+        />
+        <ChannelContainer
+          isCreating={isCreating}
+          setIsCreating={setIsCreating}
+          isEditing={isEditing}
+          setIsEditing={setIsEditing}
+          createType={createType}
+        />
       </Chat>
     </div>
   );

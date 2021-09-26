@@ -8,7 +8,16 @@ import Cookies from "universal-cookie";
 import DumbbellsIcon from "../../assets/dumbbells.png";
 import LogoutIcon from "../../assets/logout.png";
 
+const cookies = new Cookies();
+
 const SideBar = () => {
+  const onLogout = () => {
+    cookies.remove("token");
+    cookies.remove("username");
+    cookies.remove("hashedPassword");
+    window.location.reload();
+  };
+
   return (
     <div className="channel-list__sidebar">
       <div className="channel-list__sidebar__icon1">
@@ -18,7 +27,7 @@ const SideBar = () => {
       </div>
       <div className="channel-list__sidebar__icon2">
         <div className="icon1__inner">
-          <img src={LogoutIcon} alt="Logout" width="30" />
+          <img src={LogoutIcon} alt="Logout" width="30" onClick={onLogout} />
         </div>
       </div>
     </div>
@@ -31,7 +40,9 @@ const CompanyHeader = () => (
   </div>
 );
 
-const ChannelListContainer = () => {
+const ChannelListContainer = (props) => {
+  const { isCreating, setIsCreating, setCreateType, setIsEditing } = props;
+
   return (
     <>
       <SideBar />
@@ -41,7 +52,16 @@ const ChannelListContainer = () => {
         <ChannelList
           filters={{}}
           channelRenderFilterFn={() => {}}
-          List={(listProps) => <TeamChannelList type="team" {...listProps} />}
+          List={(listProps) => (
+            <TeamChannelList
+              type="team"
+              {...listProps}
+              isCreating={isCreating}
+              setIsCreating={setIsCreating}
+              setCreateType={setCreateType}
+              setIsEditing={setIsEditing}
+            />
+          )}
           Preview={(previewProps) => (
             <TeamChannelPreview type="team" {...previewProps} />
           )}
@@ -50,7 +70,14 @@ const ChannelListContainer = () => {
           filters={{}}
           channelRenderFilterFn={() => {}}
           List={(listProps) => (
-            <TeamChannelList type="messaging" {...listProps} />
+            <TeamChannelList
+              type="messaging"
+              {...listProps}
+              isCreating={isCreating}
+              setIsCreating={setIsCreating}
+              setCreateType={setCreateType}
+              setIsEditing={setIsEditing}
+            />
           )}
           Preview={(previewProps) => (
             <TeamChannelPreview type="messaging" {...previewProps} />
