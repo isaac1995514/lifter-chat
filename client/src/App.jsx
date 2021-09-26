@@ -10,6 +10,9 @@ import { ChannelContainer, ChannelListContainer, Auth } from "./components";
 
 import { STREAM_API_KEY } from "./.secret/api-key";
 
+/* Context */
+import { GlobalUIContext } from "./context";
+
 /* Firebase */
 import { auth } from "./config/firebase";
 
@@ -46,21 +49,21 @@ function App() {
 
   return (
     <div className="app__wrapper">
-      <Chat client={client} theme="team light">
-        <ChannelListContainer
-          isCreating={isCreating}
-          setIsCreating={setIsCreating}
-          setCreateType={setCreateType}
-          setIsEditing={setIsEditing}
-        />
-        <ChannelContainer
-          isCreating={isCreating}
-          setIsCreating={setIsCreating}
-          isEditing={isEditing}
-          setIsEditing={setIsEditing}
-          createType={createType}
-        />
-      </Chat>
+      <GlobalUIContext.Provider
+        value={{
+          createType,
+          setCreateType,
+          isCreating,
+          setIsCreating,
+          isEditing,
+          setIsEditing,
+        }}
+      >
+        <Chat client={client} theme="team light">
+          <ChannelListContainer />
+          <ChannelContainer />
+        </Chat>
+      </GlobalUIContext.Provider>
     </div>
   );
 }

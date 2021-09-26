@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { ChannelList, useChatContext } from "stream-chat-react";
 import { ChannelSearch, TeamChannelList, TeamChannelPreview } from "../";
@@ -40,8 +40,20 @@ const CompanyHeader = () => (
   </div>
 );
 
-const ChannelListContainer = (props) => {
-  const { isCreating, setIsCreating, setCreateType, setIsEditing } = props;
+const customChannelTeamFilter = (channels) => {
+  return channels.filter((channel) => channel.type === "team");
+};
+
+const customChannelMessagingFilter = (channels) => {
+  return channels.filter((channel) => channel.type === "messaging");
+};
+
+const ChannelListContent = (props) => {
+  const { setToggleContainer } = props;
+
+  const { client } = useChatContext();
+
+  const filters = { members: { $in: [client?.userID || ""] } };
 
   return (
     <>
@@ -50,39 +62,67 @@ const ChannelListContainer = (props) => {
         <CompanyHeader />
         <ChannelSearch />
         <ChannelList
-          filters={{}}
-          channelRenderFilterFn={() => {}}
+          filters={filters}
+          channelRenderFilterFn={customChannelTeamFilter}
           List={(listProps) => (
             <TeamChannelList
               type="team"
               {...listProps}
-              isCreating={isCreating}
-              setIsCreating={setIsCreating}
-              setCreateType={setCreateType}
-              setIsEditing={setIsEditing}
+              setToggleContainer={setToggleContainer}
             />
           )}
           Preview={(previewProps) => (
-            <TeamChannelPreview type="team" {...previewProps} />
+            <TeamChannelPreview
+              type="team"
+              {...previewProps}
+              setToggleContainer={setToggleContainer}
+            />
           )}
         />
         <ChannelList
-          filters={{}}
-          channelRenderFilterFn={() => {}}
+          filters={filters}
+          channelRenderFilterFn={customChannelMessagingFilter}
           List={(listProps) => (
             <TeamChannelList
               type="messaging"
               {...listProps}
-              isCreating={isCreating}
-              setIsCreating={setIsCreating}
-              setCreateType={setCreateType}
-              setIsEditing={setIsEditing}
+              setToggleContainer={setToggleContainer}
             />
           )}
           Preview={(previewProps) => (
-            <TeamChannelPreview type="messaging" {...previewProps} />
+            <TeamChannelPreview
+              type="messaging"
+              {...previewProps}
+              setToggleContainer={setToggleContainer}
+            />
           )}
         />
+      </div>
+    </>
+  );
+};
+
+const ChannelListContainer = () => {
+  const [toggleContainer, setToggleContainer] = useState(false);
+
+  return (
+    <>
+      <div className="channel-list__container">
+        <ChannelListContent />
+      </div>
+      <div
+        className="channel-list__container-responsive"
+        style={{
+          left: toggleContainer ? "0%" : "-89%",
+          backgroundColor: "#005fff",
+        }}
+      >
+        <div
+          className="channel-list__container-toggle"
+          onClick={() => setToggleContainer((prev) => !prev)}
+        >
+          <ChannelListContent setToggleContainer={setToggleContainer} />
+        </div>
       </div>
     </>
   );

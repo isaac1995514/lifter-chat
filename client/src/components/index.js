@@ -9,3 +9,4 @@ export * from "./ChannelInner";
 export * from "./CreateChannel";
 export * from "./EditChannel";
 export * from "./TeamMessage";
+export * from "./UserList";

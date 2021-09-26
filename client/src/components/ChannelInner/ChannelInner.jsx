@@ -1,4 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+
+import { GlobalUIContext } from "../../context";
+
 import {
   MessageList,
   MessageInput,
@@ -14,7 +17,7 @@ import { ChannelInfo } from "../../assets";
 
 export const GiphyContext = React.createContext({});
 
-const ChannelInner = ({ setIsEditing }) => {
+const ChannelInner = () => {
   const [giphyState, setGiphyState] = useState(false);
   const { sendMessage } = useChannelActionContext();
 
@@ -41,7 +44,7 @@ const ChannelInner = ({ setIsEditing }) => {
     <GiphyContext.Provider value={{ giphyState, setGiphyState }}>
       <div style={{ display: "flex", width: "100%" }}>
         <Window>
-          <TeamChannelHeader setIsEditing={setIsEditing} />
+          <TeamChannelHeader />
           <MessageList />
           <MessageInput overrideSubmitHandler={overrideSubmitHandler} />
         </Window>
@@ -51,7 +54,9 @@ const ChannelInner = ({ setIsEditing }) => {
   );
 };
 
-const TeamChannelHeader = ({ setIsEditing }) => {
+const TeamChannelHeader = () => {
+  const { setIsEditing } = useContext(GlobalUIContext);
+
   const { channel, watcher_count } = useChannelStateContext();
   const { client } = useChatContext();
 

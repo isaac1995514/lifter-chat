@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useContext } from "react";
+import { GlobalUIContext } from "../../context";
 
 import { AddChannel } from "../../assets";
 
@@ -7,9 +8,11 @@ const TeamChannelList = ({
   error = false,
   loading,
   type,
-  ...rest
+  setToggleContainer,
 }) => {
-  const { isCreating, setIsCreating, setCreateType, setIsEditing } = rest;
+  const { isCreating, setIsCreating, setCreateType, setIsEditing } = useContext(
+    GlobalUIContext
+  );
 
   if (error) {
     return type === "team" ? (
@@ -43,6 +46,7 @@ const TeamChannelList = ({
           setCreateType={setCreateType}
           setIsEditing={setIsEditing}
           type={type === "team" ? "team" : "messaging"}
+          setToggleContainer={setToggleContainer}
         />
       </div>
       {children}
